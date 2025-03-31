@@ -237,11 +237,19 @@ def main():
 
         # Convert to DataFrame and process the data
         if all_data:
+
             # Add session column and headers
-            df = pd.DataFrame(all_data, columns=["Session"] + extracted_headers)
+            df_raw = pd.DataFrame(all_data, columns=["Session"] + extracted_headers)
+
+            # Save raw data before any filtering or sorting
+            df_raw.to_csv("raw_session_data.csv", index=False)
+            print("Raw data saved to raw_session_data.csv")
+
+            # Create a copy to process for the cleaned version
+            df = df_raw.copy()            
 
             # Keep only the required fields
-            required_fields = ['Session', 'Team', 'CPI', 'SPI', 'QPI', 'Motiv', 'RMI', 'Score']
+            required_fields = ['Team', 'CPI', 'SPI', 'QPI', 'MOTIV', 'RMI', 'SCORE']
             df = df[[col for col in required_fields if col in df.columns]]
 
             # Convert 'Team' column to numeric for sorting (extracts numbers)
