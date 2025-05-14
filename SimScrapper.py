@@ -44,8 +44,7 @@ def read_credentials_from_file():
         password = lines[1].strip()  # Removing trailing newline
     return username, password
 
-login_url = 'https://www.simultrain.swiss/smt12/admin/index.php/Login/checkLogin'
-#table_url = 'https://www.simultrain.swiss/smt12/admin/index.php/Trainer'
+login_url = 'https://stselearning.b2clogin.com/stselearning.onmicrosoft.com/oauth2/v2.0/authorize?&p=B2C_1_SignUp&ui_locales=en&client_id=7d1c4135-fdc8-4f1a-8a31-aebc26237b2d&response_type=code&redirect_uri=https%3A%2F%2Ftrainerdesk.simultrain.swiss%2F_oauth%2Foidc&state=eyJsb2dpblN0eWxlIjoicmVkaXJlY3QiLCJjcmVkZW50aWFsVG9rZW4iOiJhNUFaRnZWenJmU0txcDdxcW1EeGxMOU13T1ZxLUlEWElWYURDeUVEWVFHIiwiaXNDb3Jkb3ZhIjpmYWxzZSwicmVkaXJlY3RVcmwiOiJodHRwczovL3RyYWluZXJkZXNrLnNpbXVsdHJhaW4uc3dpc3MvIn0%3D&scope=openid%20profile%20email'
 
 def main():
 
@@ -79,14 +78,14 @@ def main():
     try:
         
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "username"))
+            EC.presence_of_element_located((By.ID, "email"))
         )
     except TimeoutException:
         print('Login unsuccessful. Unable to find username field, Exiting...')
         sys.exit()
 
     # Find login elements and input credentials
-    username_input = driver.find_element(By.ID, "username")
+    username_input = driver.find_element(By.ID, "email")
     username_input.send_keys(username)
 
     #wait for the password field to appear
@@ -106,7 +105,7 @@ def main():
 
 
     # Find the button using XPath (by class and text)
-    login_button = driver.find_element(By.XPATH, "//button[contains(@class, 'MuiButton-containedPrimary') and contains(text(), 'Log In')]")
+    login_button = driver.find_element(By.ID, "next")
     login_button.click()
 
     print('Logging in...')
